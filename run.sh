@@ -2,7 +2,7 @@
 set -ex
 cd `dirname $0`
 
-# 1. 自动定位可执行文件路径（优先检查 output 目录，兼容 ByteFaaS 标准打包结构与根目录直接运行）
+# 1. 自动定位可执行文件路径（优先检查 output 目录，兼容通用打包结构与根目录直接运行）
 if [ -f "./output/rocksdb-dedup" ]; then
     BIN="./output/rocksdb-dedup"
 elif [ -f "./output/main" ]; then

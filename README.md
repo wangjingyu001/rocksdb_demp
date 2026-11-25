@@ -25,7 +25,7 @@
 - **🔒 统一安全鉴权 (Auth Token)**：
   - 支持配置访问密钥，通过 `Authorization: Bearer <token>` 或 `X-API-Key: <token>` 进行全局统一拦截认证。
 - **📦 超强兼容与零依赖运行**：
-  - 预编译 Linux 二进制采用 Ubuntu 18.04 编译基线，静态内嵌 C++ 运行时（`libstdc++`），最低兼容 **GLIBC 2.27+**，在 Debian 10/11/12、Ubuntu、CentOS 8 以及各类无依赖容器环境（如 ByteFaaS/Docker）中开箱即用。
+  - 预编译 Linux 二进制采用 Ubuntu 18.04 编译基线，静态内嵌 C++ 运行时（`libstdc++`），最低兼容 **GLIBC 2.27+**，在 Debian 10/11/12、Ubuntu、CentOS 8 以及各类无依赖容器环境（如 Docker/Kubernetes/云原生容器）中开箱即用。
 - **📊 工业级可观测性**：
   - 内置 Prometheus 指标端点（`/metrics`）与健康探针（`/health`），附带开箱即用的 Grafana 监控大盘模板。
 
@@ -107,7 +107,7 @@ cp dedup.example.toml dedup.toml
 ./rocksdb-dedup serve --config dedup.toml
 ```
 
-### 4. 容器 / ByteFaaS 一键启动
+### 4. 容器化 / 脚本一键启动
 
 项目中已内置全自动检测与信号优雅管理的 `run.sh`：
 
@@ -325,7 +325,7 @@ expire_at_7d = int(time.time() * 1000) + 7 * 86400 * 1000
 
 #### 方案 A：优先单实例部署（满足 99% 的应用场景）
 * **性能充裕**：由于热路径由内存布隆过滤器支撑，单台普通 4C8G 容器单实例即可支撑 **30,000 ~ 50,000 QPS**，足以承载每天数亿级抓取量的爬虫系统。
-* **部署建议**：在云平台 / ByteFaaS / K8s Deployment 中配置：
+* **部署建议**：在云平台 / K8s Deployment / 容器服务中配置：
   - `min_replicas = 1`
   - `max_replicas = 1`（固定单实例）
   - 挂载持久化存储卷（Persistent Volume）到 `--db-path`，确保容器重建后数据不丢失。
